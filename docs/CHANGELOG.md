@@ -1,5 +1,9 @@
 # Changelog
 
+## [20.0.9] 📅 2026-07-29
+### Fixes
+- `@nova-ui/bits` | Added unique IDs to expander landmarks
+
 ## [20.0.8] 📅 2025-07-27
 ### Added
 - `@nova-ui/dashboards` | Decoupled KPI tile and proportional chart into reusable view components (`KpiTileViewComponent`, `ProportionalChartViewComponent`)
