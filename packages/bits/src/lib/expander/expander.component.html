@@ -3,7 +3,8 @@
         class="nui-expander__header"
         tabindex="0"
         role="button"
-        aria-label="Expander toggle"
+        [id]="'nui-expander-header-' + uniqueId"
+        [attr.aria-label]="accessibleLabel + ' toggle'"
         [attr.aria-expanded]="state === 'expanded'"
         [attr.aria-disabled]="disabled"
         [class.nui-expander__header--empty]="
@@ -50,7 +51,7 @@
     <div
         class="nui-expander__body-wrapper"
         role="region"
-        [attr.aria-label]="header || ('Expander ' + uniqueId)"
+        [attr.aria-labelledby]="'nui-expander-header-' + uniqueId"
     >
         <div
             class="nui-expander__body"
