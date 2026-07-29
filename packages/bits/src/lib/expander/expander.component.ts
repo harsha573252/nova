@@ -64,6 +64,10 @@ export class ExpanderComponent implements AfterContentInit {
      */
     @Input() hideLeftBorder: boolean = false;
     /**
+     * Translated fallback accessible name used when `header` is not set.
+     */
+    @Input() ariaLabel: string = "";
+    /**
      * Use this to have expander opened by default.
      */
     @Input() set open(value: boolean) {
@@ -92,6 +96,13 @@ export class ExpanderComponent implements AfterContentInit {
 
     constructor(private cdRef: ChangeDetectorRef) {
         this.uniqueId = String(++nextExpanderId);
+    }
+
+    /**
+     * Accessible name for the toggle button and region landmark.
+     */
+    public get accessibleLabel(): string {
+        return this.header || this.ariaLabel || `Expander ${this.uniqueId}`;
     }
 
     public ngAfterContentInit(): void {
