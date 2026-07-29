@@ -18,24 +18,31 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import { CheckboxGroupAtom } from "./checkbox-group.atom";
-import { Helpers, test } from "../../setup";
+import { Component } from "@angular/core";
+import { FormControl } from "@angular/forms";
 
-test.describe("a11y: checkbox-group", () => {
-    // disabling the rule until NUI-6015 is addressed
-    const rulesToDisable: string[] = [
-        "aria-toggle-field-name",
-        "aria-required-attr",
-    ];
+type KpiTileState = "normal" | "loading" | "empty";
 
-    test.beforeEach(async ({ page }) => {
-        await Helpers.prepareBrowser(
-            "checkbox-group/checkbox-group-visual-test",
-            page
-        );
+/**
+ * KPI Tile View - Playground example.
+ * Switch between all visual states (normal / loading / empty) and toggle
+ * interactivity to explore every variant the reusable tile view supports.
+ */
+@Component({
+    selector: "kpi-tile-view-basic-example",
+    templateUrl: "./kpi-tile-view-basic-example.component.html",
+    standalone: false,
+})
+export class KpiTileViewBasicExampleComponent {
+    public readonly stateControl = new FormControl<KpiTileState>("normal", {
+        nonNullable: true,
     });
+    public interactive = false;
+    public lastClicked = "";
 
-    test("should verify a11y of checkbox group", async ({ runA11yScan }) => {
-        await runA11yScan(CheckboxGroupAtom, rulesToDisable);
-    });
-});
+    public readonly stateOptions: KpiTileState[] = ["normal", "loading", "empty"];
+
+    public onTileClick(label: string): void {
+        this.lastClicked = label;
+    }
+}

@@ -18,24 +18,29 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import { CheckboxGroupAtom } from "./checkbox-group.atom";
-import { Helpers, test } from "../../setup";
+import { Component, TemplateRef, ViewChild } from "@angular/core";
 
-test.describe("a11y: checkbox-group", () => {
-    // disabling the rule until NUI-6015 is addressed
-    const rulesToDisable: string[] = [
-        "aria-toggle-field-name",
-        "aria-required-attr",
-    ];
+/**
+ * Interactive KPI Tile View example with custom value formatting
+ * and click event handling.
+ */
+@Component({
+    selector: "kpi-tile-view-interactive-example",
+    templateUrl: "./kpi-tile-view-interactive-example.component.html",
+    standalone: false,
+})
+export class KpiTileViewInteractiveExampleComponent {
+    public currentValue = 1_247;
+    public lastClickedTile = "";
 
-    test.beforeEach(async ({ page }) => {
-        await Helpers.prepareBrowser(
-            "checkbox-group/checkbox-group-visual-test",
-            page
-        );
-    });
+    @ViewChild("customValueTpl", { static: true })
+    public customValueTpl: TemplateRef<any>;
 
-    test("should verify a11y of checkbox group", async ({ runA11yScan }) => {
-        await runA11yScan(CheckboxGroupAtom, rulesToDisable);
-    });
-});
+    public onTileClick(): void {
+        this.lastClickedTile = "Active Sessions";
+    }
+
+    public onUptimeClick(): void {
+        this.lastClickedTile = "Uptime";
+    }
+}

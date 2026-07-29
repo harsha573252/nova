@@ -18,24 +18,27 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import { CheckboxGroupAtom } from "./checkbox-group.atom";
-import { Helpers, test } from "../../setup";
+import { Component } from "@angular/core";
 
-test.describe("a11y: checkbox-group", () => {
-    // disabling the rule until NUI-6015 is addressed
-    const rulesToDisable: string[] = [
-        "aria-toggle-field-name",
-        "aria-required-attr",
-    ];
+@Component({
+    selector: "nui-view-components-docs",
+    templateUrl: "./view-components-docs.component.html",
+    standalone: false,
+})
+export class ViewComponentsDocsComponent {
+    public readonly installationSnippet = `import { NuiDashboardViewsModule } from "@nova-ui/dashboards";
 
-    test.beforeEach(async ({ page }) => {
-        await Helpers.prepareBrowser(
-            "checkbox-group/checkbox-group-visual-test",
-            page
-        );
-    });
+@NgModule({
+    imports: [NuiDashboardViewsModule],
+})
+export class MyFeatureModule {}`;
 
-    test("should verify a11y of checkbox group", async ({ runA11yScan }) => {
-        await runA11yScan(CheckboxGroupAtom, rulesToDisable);
-    });
-});
+    public readonly proportionalDataItemSnippet = `interface IProportionalDataItem {
+    id: string;       // Unique segment identifier
+    name: string;     // Display name in legend
+    value: number;    // Numeric value determining segment size
+    color?: string;   // Optional CSS color (hex or token)
+    icon?: string;    // Optional icon name for legend
+    link?: string;    // Optional drill-down URL
+}`;
+}
