@@ -24,6 +24,7 @@
                     type="button"
                     #toolbarButtons
                     [tabindex]="!i && !j ? 0 : -1"
+                    [disabled]="commandItem.disabled"
                     (click)="onClickToolbarBtn($event, commandItem)"
                     [displayStyle]="
                         commandItem.displayStyle === 'main'

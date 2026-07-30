@@ -335,7 +335,8 @@ export class ToolbarComponent implements AfterViewInit, OnDestroy {
 
                 this.keyboardService.setToolbarItems(
                     this.toolbarItems,
-                    this.menu
+                    this.menu,
+                    this.ariaOrientation
                 );
             });
     }
