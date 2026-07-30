@@ -210,5 +210,47 @@ describe("components >", () => {
                 expect(spy).toHaveBeenCalledWith(keyboardEventMock);
             });
         });
+
+        describe("aria attributes >", () => {
+            let toolbarEl: HTMLElement;
+
+            beforeEach(() => {
+                toolbarEl =
+                    fixture.debugElement.nativeElement.querySelector(
+                        "nui-toolbar"
+                    );
+            });
+
+            it("should render aria-label when ariaLabel is set", () => {
+                component.ariaLabel = "Main toolbar";
+                fixture.detectChanges();
+                expect(toolbarEl.getAttribute("aria-label")).toBe(
+                    "Main toolbar"
+                );
+            });
+
+            it("should render aria-labelledby when ariaLabelledBy is set", () => {
+                component.ariaLabelledBy = "toolbar-heading";
+                fixture.detectChanges();
+                expect(toolbarEl.getAttribute("aria-labelledby")).toBe(
+                    "toolbar-heading"
+                );
+            });
+
+            it("should render aria-orientation when ariaOrientation is set", () => {
+                component.ariaOrientation = "vertical";
+                fixture.detectChanges();
+                expect(toolbarEl.getAttribute("aria-orientation")).toBe(
+                    "vertical"
+                );
+            });
+
+            it("should not render aria attributes when inputs are not set", () => {
+                fixture.detectChanges();
+                expect(toolbarEl.hasAttribute("aria-label")).toBeFalse();
+                expect(toolbarEl.hasAttribute("aria-labelledby")).toBeFalse();
+                expect(toolbarEl.hasAttribute("aria-orientation")).toBeFalse();
+            });
+        });
     });
 });

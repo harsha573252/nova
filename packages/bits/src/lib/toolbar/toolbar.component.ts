@@ -354,7 +354,8 @@ export class ToolbarComponent
 
                 this.keyboardService.setToolbarItems(
                     this.toolbarItems,
-                    this.menu
+                    this.menu,
+                    this.ariaOrientation
                 );
             });
     }
