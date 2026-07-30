@@ -1,5 +1,9 @@
 # Changelog
 
+## [20.0.10] 📅 2026-07-30
+### Fixes
+- `@nova-ui/bits` | Calendar navigation improvements
+
 ## [20.0.8] 📅 2025-07-27
 ### Added
 - `@nova-ui/dashboards` | Decoupled KPI tile and proportional chart into reusable view components (`KpiTileViewComponent`, `ProportionalChartViewComponent`)
