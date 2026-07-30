@@ -18,24 +18,24 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import { CheckboxGroupAtom } from "./checkbox-group.atom";
-import { Helpers, test } from "../../setup";
+/** A single data item in the proportional chart. */
+export interface IProportionalDataItem {
+    /** Unique identifier for the segment. */
+    id: string;
+    /** Display name shown in legend. */
+    name: string;
+    /** Numeric value determining segment size. */
+    value: number;
+    /** Optional CSS color (hex or token). If not provided, palette is used. */
+    color?: string;
+    /** Optional icon name displayed in legend. */
+    icon?: string;
+    /** Optional link for drill-down interaction. */
+    link?: string;
+}
 
-test.describe("a11y: checkbox-group", () => {
-    // disabling the rule until NUI-6015 is addressed
-    const rulesToDisable: string[] = [
-        "aria-toggle-field-name",
-        "aria-required-attr",
-    ];
+/** Chart type variants the view supports. */
+export type ProportionalChartType = "donut" | "pie" | "verticalBar" | "horizontalBar";
 
-    test.beforeEach(async ({ page }) => {
-        await Helpers.prepareBrowser(
-            "checkbox-group/checkbox-group-visual-test",
-            page
-        );
-    });
-
-    test("should verify a11y of checkbox group", async ({ runA11yScan }) => {
-        await runA11yScan(CheckboxGroupAtom, rulesToDisable);
-    });
-});
+/** Legend placement relative to the chart. */
+export type ViewLegendPlacement = "right" | "bottom" | "none";

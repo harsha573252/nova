@@ -18,24 +18,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import { CheckboxGroupAtom } from "./checkbox-group.atom";
-import { Helpers, test } from "../../setup";
-
-test.describe("a11y: checkbox-group", () => {
-    // disabling the rule until NUI-6015 is addressed
-    const rulesToDisable: string[] = [
-        "aria-toggle-field-name",
-        "aria-required-attr",
-    ];
-
-    test.beforeEach(async ({ page }) => {
-        await Helpers.prepareBrowser(
-            "checkbox-group/checkbox-group-visual-test",
-            page
-        );
-    });
-
-    test("should verify a11y of checkbox group", async ({ runA11yScan }) => {
-        await runA11yScan(CheckboxGroupAtom, rulesToDisable);
-    });
-});
+export * from "./types";
+export * from "./views.module";
+export * from "./proportional-chart-view/proportional-chart-view.component";
+export * from "./kpi-tile-view/kpi-tile-view.component";

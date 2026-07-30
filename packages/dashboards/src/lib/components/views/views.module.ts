@@ -18,24 +18,41 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import { CheckboxGroupAtom } from "./checkbox-group.atom";
-import { Helpers, test } from "../../setup";
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 
-test.describe("a11y: checkbox-group", () => {
-    // disabling the rule until NUI-6015 is addressed
-    const rulesToDisable: string[] = [
-        "aria-toggle-field-name",
-        "aria-required-attr",
-    ];
+import {
+    NuiBusyModule,
+    NuiCommonModule,
+    NuiIconModule,
+} from "@nova-ui/bits";
+import { NuiChartsModule } from "@nova-ui/charts";
 
-    test.beforeEach(async ({ page }) => {
-        await Helpers.prepareBrowser(
-            "checkbox-group/checkbox-group-visual-test",
-            page
-        );
-    });
+import { NuiDashboardsCommonModule } from "../../common/common.module";
+import { KpiTileViewComponent } from "./kpi-tile-view/kpi-tile-view.component";
+import { ProportionalChartViewComponent } from "./proportional-chart-view/proportional-chart-view.component";
 
-    test("should verify a11y of checkbox group", async ({ runA11yScan }) => {
-        await runA11yScan(CheckboxGroupAtom, rulesToDisable);
-    });
-});
+/**
+ * A Pizzagna-free module that exports standalone view components for
+ * proportional charts and KPI tiles. Consumers can import this module
+ * without needing PIZZAGNA_EVENT_BUS, DATA_SOURCE, or any Pizzagna providers.
+ */
+@NgModule({
+    imports: [
+        CommonModule,
+        NuiBusyModule,
+        NuiChartsModule,
+        NuiCommonModule,
+        NuiIconModule,
+        NuiDashboardsCommonModule,
+    ],
+    declarations: [
+        ProportionalChartViewComponent,
+        KpiTileViewComponent,
+    ],
+    exports: [
+        ProportionalChartViewComponent,
+        KpiTileViewComponent,
+    ],
+})
+export class NuiDashboardViewsModule {}
