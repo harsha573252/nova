@@ -98,13 +98,6 @@ export class ExpanderComponent implements AfterContentInit {
         this.uniqueId = String(++nextExpanderId);
     }
 
-    /**
-     * Accessible name for the toggle button and region landmark.
-     */
-    public get accessibleLabel(): string {
-        return this.header || this.ariaLabel || `Expander ${this.uniqueId}`;
-    }
-
     public ngAfterContentInit(): void {
         this.isCustomHeaderContentEmpty =
             this.customHeaderContent.nativeElement.childNodes.length === 0;
