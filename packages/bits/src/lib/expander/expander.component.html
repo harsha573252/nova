@@ -3,8 +3,7 @@
         class="nui-expander__header"
         tabindex="0"
         role="button"
-        [id]="'nui-expander-header-' + uniqueId"
-        [attr.aria-label]="accessibleLabel + ' toggle'"
+        [attr.aria-labelledby]="'nui-expander-label-' + uniqueId"
         [attr.aria-expanded]="state === 'expanded'"
         [attr.aria-disabled]="disabled"
         [class.nui-expander__header--empty]="
@@ -21,6 +20,7 @@
         ></nui-icon>
         <div
             class="nui-expander__header-content-wrapper"
+            [id]="'nui-expander-label-' + uniqueId"
             [class.nui-expander__custom-header--empty]="
                 isCustomHeaderContentEmpty
             "
@@ -48,12 +48,17 @@
                 <span class="nui-expander__header-title">{{ header }}</span>
             </div>
             }
+            <span
+                *ngIf="!header && isCustomHeaderContentEmpty && ariaLabel"
+                class="sr-only"
+                >{{ ariaLabel }}</span
+            >
         </div>
     </div>
     <div
         class="nui-expander__body-wrapper"
         role="region"
-        [attr.aria-labelledby]="'nui-expander-header-' + uniqueId"
+        [attr.aria-labelledby]="'nui-expander-label-' + uniqueId"
     >
         @if (open) {
         <div
