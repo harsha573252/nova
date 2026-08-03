@@ -87,7 +87,20 @@ export class ToolbarComponent
 
     @Input() public ariaLabelledBy?: string;
 
-    @Input() public ariaOrientation?: "horizontal" | "vertical";
+    @Input()
+    public set ariaOrientation(value: "horizontal" | "vertical" | undefined) {
+        this._ariaOrientation = value;
+        // keep the keyboard service in sync with runtime orientation changes
+        this.keyboardService.setToolbarItems(
+            this.toolbarItems,
+            this.menu,
+            value
+        );
+    }
+
+    public get ariaOrientation(): "horizontal" | "vertical" | undefined {
+        return this._ariaOrientation;
+    }
 
     @Input()
     /**
@@ -134,6 +147,7 @@ export class ToolbarComponent
     private destructiveItems: any[];
     private destroy$: Subject<void> = new Subject<void>();
     private moveToolbarItemsTimeout?: ReturnType<typeof setTimeout>;
+    private _ariaOrientation?: "horizontal" | "vertical";
 
     constructor(
         public element: ElementRef,
@@ -330,6 +344,16 @@ export class ToolbarComponent
         );
     }
 
+    public isFirstFocusableItem(commandItem: ToolbarItemComponent): boolean {
+        for (const group of this.commandGroups) {
+            const firstEnabled = group.items.find((item) => !item.disabled);
+            if (firstEnabled) {
+                return firstEnabled === commandItem;
+            }
+        }
+        return false;
+    }
+
     private subscribeToToolbarStepsChanges(): void {
         this.toolbarButtons.changes
             .pipe(takeUntil(this.destroy$))
@@ -341,9 +365,13 @@ export class ToolbarComponent
                     .filter((el) => !!el);
 
                 if (this.menu) {
-                    // In case all buttons are hidden within the Commands menu we want this menu to receive the focus
-                    // If at least one button is visible in the toolbar it should receive the focus first upon navigating onto the toolbar
-                    const tabIndex = buttons.length ? "-1" : "0";
+                    // In case all buttons are hidden within the Commands menu, or all visible buttons are disabled,
+                    // we want this menu to receive the focus.
+                    // If at least one enabled button is visible in the toolbar it should receive the focus first upon navigating onto the toolbar
+                    const hasEnabledItem = this.toolbarItems.some(
+                        (el) => !(el as HTMLButtonElement).disabled
+                    );
+                    const tabIndex = hasEnabledItem ? "-1" : "0";
 
                     this.menu.menuToggle.nativeElement.setAttribute(
                         "tabindex",
