@@ -294,7 +294,7 @@ describe("components >", () => {
                 );
             });
 
-            it("labels the header button and body region with the ariaLabel fallback when there is no header", () => {
+            it("labels the header button and body region with a custom ariaLabel when there is no header", () => {
                 fixture = TestBed.createComponent(ExpanderComponent);
                 subject = fixture.componentInstance;
                 subject.header = "";
@@ -324,15 +324,36 @@ describe("components >", () => {
                 );
             });
 
-            it("does not render the ariaLabel fallback when there is no header and no ariaLabel", () => {
+            it("still has a valid accessible name from the default ariaLabel when there is no header", () => {
                 fixture = TestBed.createComponent(ExpanderComponent);
                 subject = fixture.componentInstance;
                 subject.header = "";
                 fixture.detectChanges();
 
+                const expectedLabelId = `nui-expander-label-${subject.uniqueId}`;
+                const headerEl = fixture.debugElement.query(
+                    By.css(".nui-expander__header")
+                );
+                const bodyWrapperEl = fixture.debugElement.query(
+                    By.css(".nui-expander__body-wrapper")
+                );
+
                 expect(
-                    fixture.debugElement.query(By.css(".sr-only"))
-                ).toBeNull();
+                    headerEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+                expect(
+                    bodyWrapperEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+
+                const srOnlyEl = fixture.debugElement.query(
+                    By.css(".sr-only")
+                );
+                expect(srOnlyEl.nativeElement.textContent.trim()).toBe(
+                    subject.ariaLabel
+                );
+                expect(srOnlyEl.nativeElement.textContent.trim().length).toBeGreaterThan(
+                    0
+                );
             });
         });
 

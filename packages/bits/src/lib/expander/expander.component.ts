@@ -64,9 +64,10 @@ export class ExpanderComponent implements AfterContentInit {
      */
     @Input() hideLeftBorder: boolean = false;
     /**
-     * Translated fallback accessible name used when `header` is not set.
+     * Accessible name used when `header` is not set, so the header button and body region always have a valid label.
+     * Defaults to a localized fallback.
      */
-    @Input() ariaLabel: string = "";
+    @Input() ariaLabel: string = $localize`Expander`;
     /**
      * Use this to have expander opened by default.
      */
