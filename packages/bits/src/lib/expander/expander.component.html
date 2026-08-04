@@ -21,7 +21,6 @@
         ></nui-icon>
         <div
             class="nui-expander__header-content-wrapper"
-            [id]="'nui-expander-label-' + uniqueId"
             [class.nui-expander__custom-header--empty]="
                 isCustomHeaderContentEmpty
             "
@@ -47,16 +46,15 @@
                 ></nui-icon>
                 <span class="nui-expander__header-title">{{ header }}</span>
             </div>
-            <span
-                *ngIf="!header && isCustomHeaderContentEmpty && ariaLabel"
-                class="sr-only"
-                >{{ ariaLabel }}</span
-            >
+            <span [id]="'nui-expander-label-' + uniqueId" class="sr-only">
+                {{ ariaLabel || header || defaultAriaLabel }}
+            </span>
         </div>
     </div>
     <div
         class="nui-expander__body-wrapper"
         role="region"
+        [id]="bodyId"
         [attr.aria-labelledby]="'nui-expander-label-' + uniqueId"
     >
         <div

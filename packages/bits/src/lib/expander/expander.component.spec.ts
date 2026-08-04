@@ -122,7 +122,9 @@ describe("components >", () => {
                     );
                     usageFixture.detectChanges();
                     headerContentEls = usageFixture.debugElement.queryAll(
-                        By.css(".nui-expander__header-content-wrapper>*")
+                        By.css(
+                            ".nui-expander__header-content-wrapper>*:not(.sr-only)"
+                        )
                     );
                 });
 
@@ -262,7 +264,7 @@ describe("components >", () => {
                 );
             });
 
-            it("labels the header button and body region with the same custom projected header", () => {
+            it("does not include projected custom header content in the accessible name", () => {
                 const usageFixture = TestBed.createComponent(
                     ExpanderUsageWithContentComponent
                 );
@@ -289,8 +291,17 @@ describe("components >", () => {
                 const labelEl = usageFixture.debugElement.query(
                     By.css(`#${expectedLabelId}`)
                 );
-                expect(labelEl.nativeElement.textContent).toContain(
+                expect(labelEl.nativeElement.classList).toContain("sr-only");
+                expect(
+                    labelEl.nativeElement.querySelector(
+                        ".nui-expander__custom-header"
+                    )
+                ).toBeNull();
+                expect(labelEl.nativeElement.textContent).not.toContain(
                     "Custom Projected Header"
+                );
+                expect(labelEl.nativeElement.textContent.trim()).toBe(
+                    expanderSubject.defaultAriaLabel
                 );
             });
 
@@ -324,7 +335,7 @@ describe("components >", () => {
                 );
             });
 
-            it("still has a valid accessible name from the default ariaLabel when there is no header", () => {
+            it("still has a valid accessible name from the default label when there is no header", () => {
                 fixture = TestBed.createComponent(ExpanderComponent);
                 subject = fixture.componentInstance;
                 subject.header = "";
@@ -349,10 +360,31 @@ describe("components >", () => {
                     By.css(".sr-only")
                 );
                 expect(srOnlyEl.nativeElement.textContent.trim()).toBe(
-                    subject.ariaLabel
+                    subject.defaultAriaLabel
                 );
                 expect(srOnlyEl.nativeElement.textContent.trim().length).toBeGreaterThan(
                     0
+                );
+            });
+
+            it("points aria-controls of the header button at the body region", () => {
+                fixture = TestBed.createComponent(ExpanderComponent);
+                subject = fixture.componentInstance;
+                subject.header = "Standard header";
+                fixture.detectChanges();
+
+                const headerEl = fixture.debugElement.query(
+                    By.css(".nui-expander__header")
+                );
+                const bodyWrapperEl = fixture.debugElement.query(
+                    By.css(".nui-expander__body-wrapper")
+                );
+
+                expect(
+                    headerEl.nativeElement.getAttribute("aria-controls")
+                ).toBe(subject.bodyId);
+                expect(bodyWrapperEl.nativeElement.getAttribute("id")).toBe(
+                    subject.bodyId
                 );
             });
         });
