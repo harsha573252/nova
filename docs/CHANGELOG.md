@@ -1,8 +1,8 @@
 # Changelog
 
-## [20.0.10] 📅 2026-07-30
+## [20.0.9] 📅 2025-07-29
 ### Fixes
-- `@nova-ui/bits` | Calendar navigation improvements
+- Essentional A11y fixies
 
 ## [20.0.8] 📅 2025-07-27
 ### Added
