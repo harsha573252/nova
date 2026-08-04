@@ -6,6 +6,7 @@
         [attr.aria-labelledby]="'nui-expander-label-' + uniqueId"
         [attr.aria-expanded]="state === 'expanded'"
         [attr.aria-disabled]="disabled"
+        [attr.aria-controls]="bodyId"
         [class.nui-expander__header--empty]="
             !header && isCustomHeaderContentEmpty
         "
