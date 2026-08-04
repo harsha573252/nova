@@ -61,14 +61,14 @@ test.describe("USERCONTROL Menu", () => {
             await option1.toBeVisible();
             const option2 = menu.getMenuItemByContainingText("Menu Item2");
             await option1.clickItem();
-            expect(await menu.getSelectedCheckboxesCount()).toBe(1);
+            await expect(menu.getSelectedCheckboxElements()).toHaveCount(1);
             await option2.clickItem();
-            expect(await menu.getSelectedCheckboxesCount()).toBe(2);
+            await expect(menu.getSelectedCheckboxElements()).toHaveCount(2);
             await option2.clickItem();
-            expect(await menu.getSelectedCheckboxesCount()).toBe(1);
+            await expect(menu.getSelectedCheckboxElements()).toHaveCount(1);
             // Return to initial state
             await option1.clickItem();
-            expect(await menu.getSelectedCheckboxesCount()).toBe(0);
+            await expect(menu.getSelectedCheckboxElements()).toHaveCount(0);
         });
     });
 
@@ -82,6 +82,7 @@ test.describe("USERCONTROL Menu", () => {
             await expect(button).toHaveAttribute("aria-expanded", "true");
 
             // Check aria-controls
+            await expect(button).toHaveAttribute("aria-controls", /\S+/);
             const ariaControlsId = await button.getAttribute("aria-controls");
             expect(ariaControlsId).toBeTruthy();
 
@@ -115,7 +116,9 @@ test.describe("USERCONTROL Menu", () => {
                 await Helpers.pressKey("Enter");
                 await menu.isMenuOpened();
                 // First menu item should be active
-                expect(await menu.getMenuItemByIndex(0).isActiveItem()).toBe(true);
+                await expect(
+                    menu.getMenuItemByIndex(0).getLocator()
+                ).toContainClass("nui-menu-item--active");
                 // ENTER on active menu item should close menu
                 await Helpers.pressKey("Enter");
                 await menu.isMenuClosed();
@@ -127,7 +130,9 @@ test.describe("USERCONTROL Menu", () => {
                 await Helpers.pressKey("Space");
                 await menu.isMenuOpened();
                 // First menu item should be active
-                expect(await menu.getMenuItemByIndex(0).isActiveItem()).toBe(true);
+                await expect(
+                    menu.getMenuItemByIndex(0).getLocator()
+                ).toContainClass("nui-menu-item--active");
                 // SPACE on active menu item should close menu
                 await Helpers.pressKey("Space");
                 await menu.isMenuClosed();
@@ -139,7 +144,9 @@ test.describe("USERCONTROL Menu", () => {
                 await Helpers.pressKey("ArrowDown");
                 await menu.isMenuOpened();
                 // First menu item should be active
-                expect(await menu.getMenuItemByIndex(0).isActiveItem()).toBe(true);
+                await expect(
+                    menu.getMenuItemByIndex(0).getLocator()
+                ).toContainClass("nui-menu-item--active");
                 await menu.toggleMenu(); // cleanup
             });
 
@@ -150,7 +157,9 @@ test.describe("USERCONTROL Menu", () => {
                 await menu.isMenuOpened();
                 // Last menu item should be active
                 const itemCount = await menu.getAllMenuItems().count();
-                expect(await menu.getMenuItemByIndex(itemCount - 1).isActiveItem()).toBe(true);
+                await expect(
+                    menu.getMenuItemByIndex(itemCount - 1).getLocator()
+                ).toContainClass("nui-menu-item--active");
                 await menu.toggleMenu(); // cleanup
             });
 
@@ -189,37 +198,63 @@ test.describe("USERCONTROL Menu", () => {
                 });
 
                 test("should check and uncheck menu-switch using Enter", async () => {
-                    await Helpers.pressKey("ArrowDown", 3);
-                    expect(await menu.getSelectedSwitchesCount()).toEqual(1);
+                    await menu.isMenuOpened();
+                    await Helpers.pressKey("ArrowDown");
+                    await expect(
+                        menu.getMenuItemByIndex(0).getLocator()
+                    ).toContainClass("nui-menu-item--active");
+                    await Helpers.pressKey("ArrowDown", 2);
+                    await expect(menu.getSelectedSwitchElements()).toHaveCount(
+                        1
+                    );
 
                     await Helpers.pressKey("Enter");
-                    expect(await menu.getSelectedSwitchesCount()).toEqual(0);
+                    await expect(menu.getSelectedSwitchElements()).toHaveCount(
+                        0
+                    );
 
                     await Helpers.pressKey("Enter");
                     await Helpers.pressKey("ArrowDown");
                     await Helpers.pressKey("Enter");
-                    expect(await menu.getSelectedSwitchesCount()).toEqual(2);
+                    await expect(menu.getSelectedSwitchElements()).toHaveCount(
+                        2
+                    );
                     // Return to initial state
                     await Helpers.pressKey("Enter");
                     await Helpers.pressKey("ArrowUp");
                     await Helpers.pressKey("Enter");
-                    expect(await menu.getSelectedSwitchesCount()).toEqual(0);
+                    await expect(menu.getSelectedSwitchElements()).toHaveCount(
+                        0
+                    );
                 });
 
                 test("should select and close menu when selecting menu action item", async () => {
+                    await menu.isMenuOpened();
                     await Helpers.pressKey("ArrowDown");
+                    await expect(
+                        menu.getMenuItemByIndex(0).getLocator()
+                    ).toContainClass("nui-menu-item--active");
                     await Helpers.pressKey("Enter");
                     await menu.isMenuClosed();
                 });
 
                 test("should check and uncheck checkbox and properly handle disabled menu items", async () => {
-                    await Helpers.pressKey("ArrowDown", 5);
+                    await menu.isMenuOpened();
+                    await Helpers.pressKey("ArrowDown");
+                    await expect(
+                        menu.getMenuItemByIndex(0).getLocator()
+                    ).toContainClass("nui-menu-item--active");
+                    await Helpers.pressKey("ArrowDown", 4);
                     await Helpers.pressKey("Enter");
                     await menu.isMenuOpened();
-                    expect(await menu.getSelectedCheckboxesCount()).toBe(1);
+                    await expect(
+                        menu.getSelectedCheckboxElements()
+                    ).toHaveCount(1);
                     await Helpers.pressKey("Enter");
                     await menu.isMenuOpened();
-                    expect(await menu.getSelectedCheckboxesCount()).toBe(0);
+                    await expect(
+                        menu.getSelectedCheckboxElements()
+                    ).toHaveCount(0);
                 });
 
                 test("should close menu when clicking TAB from active menu item", async () => {
@@ -249,22 +284,24 @@ test.describe("USERCONTROL Menu", () => {
         test.describe("> append-to-body", () => {
             test("should check and uncheck checkbox in menu item", async () => {
                 await appendToBody.toggleMenu();
-                await Helpers.pressKey("ArrowDown");
                 // Find the first checkbox in the appendToBody menu
                 const menuLocator = appendToBody.getAppendToBodyMenu();
                 const checkboxes = menuLocator.locator("nui-checkbox");
                 const firstCheckbox = checkboxes.first();
-                // Check class for checked state
-                const isChecked = async () =>
-                    (await firstCheckbox.getAttribute("class")).includes(
-                        "nui-checkbox--checked"
-                    );
-                expect(await isChecked()).toBe(false);
+                await expect(menuLocator).toBeVisible();
+                await Helpers.pressKey("ArrowDown");
+                await expect(firstCheckbox).not.toHaveClass(
+                    /\bnui-checkbox--checked\b/
+                );
                 await Helpers.pressKey("Enter");
-                expect(await isChecked()).toBe(true);
+                await expect(firstCheckbox).toHaveClass(
+                    /\bnui-checkbox--checked\b/
+                );
                 // Return to initial state
                 await Helpers.pressKey("Enter");
-                expect(await isChecked()).toBe(false);
+                await expect(firstCheckbox).not.toHaveClass(
+                    /\bnui-checkbox--checked\b/
+                );
             });
         });
     });
@@ -279,6 +316,7 @@ async function assertStartAndEndKeyboardShortcuts(
         await menu.isMenuOpened();
         // Use instance method to get menu items
         const itemsLocator = menu.getAllMenuItems();
+        await expect(itemsLocator).not.toHaveCount(0);
         const itemCount = await itemsLocator.count();
         const targetIndex = position === "first" ? 0 : itemCount - 1;
         const targetItem = menu.getMenuItemByIndex(targetIndex);
@@ -286,6 +324,8 @@ async function assertStartAndEndKeyboardShortcuts(
         await Helpers.pressKey(position === "first" ? "End" : "Home");
         await Helpers.pressKey(key);
         // Check if the item is active (assume MenuItemAtom has isActiveItem method)
-        expect(await targetItem.isActiveItem()).toBe(true);
+        await expect(targetItem.getLocator()).toContainClass(
+            "nui-menu-item--active"
+        );
     }
 }
