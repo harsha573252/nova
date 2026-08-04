@@ -47,6 +47,8 @@ let nextExpanderId = 0;
     standalone: false,
 })
 export class ExpanderComponent implements AfterContentInit {
+    private static nextUniqueId = 0;
+
     /**
      * Adds "disabled" attribute to expander
      */
@@ -67,7 +69,8 @@ export class ExpanderComponent implements AfterContentInit {
      * Accessible name used when `header` is not set, so the header button and body region always have a valid label.
      * Defaults to a localized fallback.
      */
-    @Input() ariaLabel: string = $localize`Expander`;
+    @Input() ariaLabel: string = "";
+    public readonly defaultAriaLabel: string = $localize`Expander`;
     /**
      * Use this to have expander opened by default.
      */
@@ -92,6 +95,9 @@ export class ExpanderComponent implements AfterContentInit {
     public state: "expanded" | "collapsed" = "collapsed";
     public isCustomHeaderContentEmpty: boolean = false;
     public uniqueId: string;
+
+    /** Unique id for the expander body. */
+    public readonly bodyId = `nui-expander-body-${ExpanderComponent.nextUniqueId++}`;
 
     private actionKeys = [KEYBOARD_CODE.SPACE, KEYBOARD_CODE.ENTER].map(String);
 
