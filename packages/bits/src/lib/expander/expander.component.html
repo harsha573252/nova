@@ -47,12 +47,9 @@
                 }
                 <span class="nui-expander__header-title">{{ header }}</span>
             </div>
+            } @if (!header && isCustomHeaderContentEmpty && ariaLabel) {
+            <span class="sr-only">{{ ariaLabel }}</span>
             }
-            <span
-                *ngIf="!header && isCustomHeaderContentEmpty && ariaLabel"
-                class="sr-only"
-                >{{ ariaLabel }}</span
-            >
         </div>
     </div>
     <div
