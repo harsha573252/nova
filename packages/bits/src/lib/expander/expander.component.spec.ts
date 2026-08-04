@@ -232,6 +232,110 @@ describe("components >", () => {
             });
         });
 
+        describe("accessibility >", () => {
+            it("labels the header button and body region with the same standard header text", () => {
+                fixture = TestBed.createComponent(ExpanderComponent);
+                subject = fixture.componentInstance;
+                subject.header = "Standard header";
+                fixture.detectChanges();
+
+                const expectedLabelId = `nui-expander-label-${subject.uniqueId}`;
+                const headerEl = fixture.debugElement.query(
+                    By.css(".nui-expander__header")
+                );
+                const bodyWrapperEl = fixture.debugElement.query(
+                    By.css(".nui-expander__body-wrapper")
+                );
+
+                expect(
+                    headerEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+                expect(
+                    bodyWrapperEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+
+                const labelEl = fixture.debugElement.query(
+                    By.css(`#${expectedLabelId}`)
+                );
+                expect(labelEl.nativeElement.textContent).toContain(
+                    "Standard header"
+                );
+            });
+
+            it("labels the header button and body region with the same custom projected header", () => {
+                const usageFixture = TestBed.createComponent(
+                    ExpanderUsageWithContentComponent
+                );
+                usageFixture.detectChanges();
+                const expanderSubject: ExpanderComponent = usageFixture.debugElement.query(
+                    By.directive(ExpanderComponent)
+                ).componentInstance;
+                const expectedLabelId = `nui-expander-label-${expanderSubject.uniqueId}`;
+
+                const headerEl = usageFixture.debugElement.query(
+                    By.css(".nui-expander__header")
+                );
+                const bodyWrapperEl = usageFixture.debugElement.query(
+                    By.css(".nui-expander__body-wrapper")
+                );
+
+                expect(
+                    headerEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+                expect(
+                    bodyWrapperEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+
+                const labelEl = usageFixture.debugElement.query(
+                    By.css(`#${expectedLabelId}`)
+                );
+                expect(labelEl.nativeElement.textContent).toContain(
+                    "Custom Projected Header"
+                );
+            });
+
+            it("labels the header button and body region with the ariaLabel fallback when there is no header", () => {
+                fixture = TestBed.createComponent(ExpanderComponent);
+                subject = fixture.componentInstance;
+                subject.header = "";
+                subject.ariaLabel = "Fallback accessible name";
+                fixture.detectChanges();
+
+                const expectedLabelId = `nui-expander-label-${subject.uniqueId}`;
+                const headerEl = fixture.debugElement.query(
+                    By.css(".nui-expander__header")
+                );
+                const bodyWrapperEl = fixture.debugElement.query(
+                    By.css(".nui-expander__body-wrapper")
+                );
+
+                expect(
+                    headerEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+                expect(
+                    bodyWrapperEl.nativeElement.getAttribute("aria-labelledby")
+                ).toBe(expectedLabelId);
+
+                const srOnlyEl = fixture.debugElement.query(
+                    By.css(".sr-only")
+                );
+                expect(srOnlyEl.nativeElement.textContent.trim()).toBe(
+                    "Fallback accessible name"
+                );
+            });
+
+            it("does not render the ariaLabel fallback when there is no header and no ariaLabel", () => {
+                fixture = TestBed.createComponent(ExpanderComponent);
+                subject = fixture.componentInstance;
+                subject.header = "";
+                fixture.detectChanges();
+
+                expect(
+                    fixture.debugElement.query(By.css(".sr-only"))
+                ).toBeNull();
+            });
+        });
+
         describe("toggle >", () => {
             beforeEach(() => {
                 subject =
