@@ -1,5 +1,11 @@
 # Changelog
 
+## [21.0.3] 📅 2026-08-04
+
+### Fixes
+
+- `@nova-ui/bits` | Added unique IDs to expander landmarks
+
 ## [21.0.2] 📅 2026-07-13
 
 ### Fixes
