@@ -56,4 +56,3 @@ export class SpinnerAtom extends Atom {
     public cancel = async (): Promise<void> =>
         Atom.findIn(ButtonAtom, this.root).click();
 }
-

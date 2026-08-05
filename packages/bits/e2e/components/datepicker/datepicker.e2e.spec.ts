@@ -339,7 +339,9 @@ test.describe("USERCONTROL datepicker", () => {
                 .getLocator()
                 .textContent();
             await datepickerWithPreserve.selectDate(10);
-            await expect(Atom.find<Atom>(Atom, activeDateValueIdPreserved).getLocator()).not.toHaveText(oldValue);
+            await expect(
+                Atom.find<Atom>(Atom, activeDateValueIdPreserved).getLocator()
+            ).not.toHaveText(oldValue);
             const newValue = await getTrimmedText(activeDateValueIdPreserved);
 
             expect(newValue).not.toBe(oldValue);
@@ -353,7 +355,9 @@ test.describe("USERCONTROL datepicker", () => {
                 .getLocator()
                 .textContent();
             await datepickerInline.selectDate(10);
-            await expect(Atom.find<Atom>(Atom, activeDateValueId).getLocator()).not.toHaveText(oldValue);
+            await expect(
+                Atom.find<Atom>(Atom, activeDateValueId).getLocator()
+            ).not.toHaveText(oldValue);
             const newValue = await getTrimmedText(activeDateValueId);
 
             expect(newValue).not.toBe(oldValue);
@@ -441,13 +445,19 @@ test.describe("USERCONTROL datepicker", () => {
             const nextMonth = datepickerInline.getNextMonthTitle(currentMonth);
 
             await datepickerInline.goBack();
-            await expect(datepickerInline.getTitleText).toContainText(previousMonth);
+            await expect(datepickerInline.getTitleText).toContainText(
+                previousMonth
+            );
 
             await datepickerInline.goNext();
-            await expect(datepickerInline.getTitleText).toContainText(currentMonth);
+            await expect(datepickerInline.getTitleText).toContainText(
+                currentMonth
+            );
 
             await datepickerInline.goNext();
-            await expect(datepickerInline.getTitleText).toContainText(nextMonth);
+            await expect(datepickerInline.getTitleText).toContainText(
+                nextMonth
+            );
         });
     });
 

@@ -81,21 +81,20 @@
                     (click)="datePicker.select(cell.date, $event)"
                     tabindex="-1"
                 >
-                        <span
-                            [ngClass]="{
-                                'text-muted': cell.secondary,
-                                'text-info': cell.current,
-                                today: cell.today
-                            }"
-                            >{{ cell.label }}</span
-                        >
-                    </button>
-                    }
-                </td>
+                    <span
+                        [ngClass]="{
+                            'text-muted': cell.secondary,
+                            'text-info': cell.current,
+                            today: cell.today
+                        }"
+                        >{{ cell.label }}</span
+                    >
+                </button>
                 }
-            </tr>
+            </td>
             }
-        }
+        </tr>
+        } }
         <tr>
             <td [attr.colspan]="7 + (datePicker.showWeeks ? 1 : 0)">
                 <button

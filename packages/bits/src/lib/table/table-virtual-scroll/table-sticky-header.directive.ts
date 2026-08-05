@@ -323,17 +323,12 @@ export class TableStickyHeaderDirective implements AfterViewInit, OnDestroy {
         }
 
         const dataStream$ = this.virtualFor.dataStream.pipe(
-          // give CDK some time to render rows after a change
-          delay(0, asyncScheduler),
-          tap(() => this.updateNativeHeaderPlaceholder())
+            // give CDK some time to render rows after a change
+            delay(0, asyncScheduler),
+            tap(() => this.updateNativeHeaderPlaceholder())
         );
 
-        merge(
-            onScroll$,
-            onResize$,
-            tableColumnsUpdate$,
-            dataStream$
-        )
+        merge(onScroll$, onResize$, tableColumnsUpdate$, dataStream$)
             .pipe(
                 // Note: Preventing function to be invoked multiple times
                 // by merging new observable only if the previous one was completed
@@ -383,7 +378,11 @@ export class TableStickyHeaderDirective implements AfterViewInit, OnDestroy {
             this.renderer.addClass(this.stickyHeadContainer, cssClass)
         );
 
-        this.renderer.setAttribute(this.stickyHeadContainer, "aria-hidden", "true");
+        this.renderer.setAttribute(
+            this.stickyHeadContainer,
+            "aria-hidden",
+            "true"
+        );
 
         this.renderer.insertBefore(
             this.viewportEl.parentElement,

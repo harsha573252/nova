@@ -62,11 +62,7 @@
         #clearAll
         *ngIf="allowRemoveAll && getItemsCount() > 0"
     >
-        <a
-            href
-            class="nui-chips__clear"
-            (click)="onRemoveAll($event)"
-        >
+        <a href class="nui-chips__clear" (click)="onRemoveAll($event)">
             {{ removeAllLinkText }}
         </a>
     </div>

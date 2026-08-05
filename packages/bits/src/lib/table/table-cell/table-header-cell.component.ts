@@ -344,7 +344,11 @@ export class TableHeaderCellComponent
                         this.columnDef.name
                     );
                 if (columnWidth > 45) {
-                    this.renderer.setStyle(this.elementRef.nativeElement, "width", columnWidth + "px");
+                    this.renderer.setStyle(
+                        this.elementRef.nativeElement,
+                        "width",
+                        columnWidth + "px"
+                    );
                 }
             })
         );
@@ -411,7 +415,9 @@ export class TableHeaderCellComponent
     }
 
     public onColumnWidthChange(offset: number): void {
-        const currentWidth = this.tableStateHandlerService.getColumnWidth(this.columnDef.name);
+        const currentWidth = this.tableStateHandlerService.getColumnWidth(
+            this.columnDef.name
+        );
         const resultWidth = currentWidth + offset;
 
         // resultWidth must be more than 45 because minimum width of the column is 46px

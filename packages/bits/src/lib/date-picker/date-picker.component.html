@@ -16,25 +16,23 @@
             [ariaLabel]="ariaLabel"
             (keydown.arrowdown)="!isDisabled && overlay.show()"
         >
-            </nui-textbox>
-            <nui-icon
-                class="nui-datepicker__icon"
-                icon="calendar"
-                aria-hidden="true"
-                [iconColor]="getIconColor()"
-            ></nui-icon>
-        </div>
-        <nui-overlay
-            #overlay
-            [toggleReference]="toggleRef"
-            [overlayConfig]="overlayConfig"
-            [customContainer]="customContainer"
-        >
-            <ng-container *ngTemplateOutlet="datePickerInner"></ng-container>
-        </nui-overlay>
-    }
-
-    @if (inline) {
+        </nui-textbox>
+        <nui-icon
+            class="nui-datepicker__icon"
+            icon="calendar"
+            aria-hidden="true"
+            [iconColor]="getIconColor()"
+        ></nui-icon>
+    </div>
+    <nui-overlay
+        #overlay
+        [toggleReference]="toggleRef"
+        [overlayConfig]="overlayConfig"
+        [customContainer]="customContainer"
+    >
+        <ng-container *ngTemplateOutlet="datePickerInner"></ng-container>
+    </nui-overlay>
+    } @if (inline) {
     <div>
         <ng-container *ngTemplateOutlet="datePickerInner"></ng-container>
     </div>

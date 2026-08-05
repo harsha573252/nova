@@ -76,8 +76,7 @@ export abstract class DataSourceService<
     }
 
     public resetFilterComponent(componentName: string): boolean {
-        const component =
-            this._components?.[componentName]?.componentInstance;
+        const component = this._components?.[componentName]?.componentInstance;
         if (component?.resetFilter) {
             component.resetFilter();
             return true;

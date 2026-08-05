@@ -27,17 +27,16 @@
                         isFirst: isFirst
                     }
                 "
-                ></ng-template>
-            </div>
+            ></ng-template>
+        </div>
         }
     </ng-template>
     }
 
     <!--  Visible items container -->
-    @for (step of (isInResponsiveMode ? visibleSteps : steps); track step; let i = $index; let isFirst = $first) {
-    <div
-        class="nui-wizard-horizontal-header-wrapper"
-    >
+    @for (step of (isInResponsiveMode ? visibleSteps : steps); track step; let i
+    = $index; let isFirst = $first) {
+    <div class="nui-wizard-horizontal-header-wrapper">
         <ng-template
             *ngTemplateOutlet="
                 stepHeaderWithLines;

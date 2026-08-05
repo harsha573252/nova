@@ -26,7 +26,8 @@ import { ExpanderComponent } from "./expander.component";
 
 @Component({
     template: `<nui-expander [open]="open"
-        ><div nuiExpanderHeader=""><p>Custom Projected Header</p></div><div><span>Covfefe</span></div></nui-expander
+        ><div nuiExpanderHeader=""><p>Custom Projected Header</p></div>
+        <div><span>Covfefe</span></div></nui-expander
     >`,
     standalone: false,
 })
@@ -269,9 +270,10 @@ describe("components >", () => {
                     ExpanderUsageWithContentComponent
                 );
                 usageFixture.detectChanges();
-                const expanderSubject: ExpanderComponent = usageFixture.debugElement.query(
-                    By.directive(ExpanderComponent)
-                ).componentInstance;
+                const expanderSubject: ExpanderComponent =
+                    usageFixture.debugElement.query(
+                        By.directive(ExpanderComponent)
+                    ).componentInstance;
                 const expectedLabelId = `nui-expander-label-${expanderSubject.uniqueId}`;
 
                 const headerEl = usageFixture.debugElement.query(
@@ -327,9 +329,7 @@ describe("components >", () => {
                     bodyWrapperEl.nativeElement.getAttribute("aria-labelledby")
                 ).toBe(expectedLabelId);
 
-                const srOnlyEl = fixture.debugElement.query(
-                    By.css(".sr-only")
-                );
+                const srOnlyEl = fixture.debugElement.query(By.css(".sr-only"));
                 expect(srOnlyEl.nativeElement.textContent.trim()).toBe(
                     "Fallback accessible name"
                 );
@@ -356,15 +356,13 @@ describe("components >", () => {
                     bodyWrapperEl.nativeElement.getAttribute("aria-labelledby")
                 ).toBe(expectedLabelId);
 
-                const srOnlyEl = fixture.debugElement.query(
-                    By.css(".sr-only")
-                );
+                const srOnlyEl = fixture.debugElement.query(By.css(".sr-only"));
                 expect(srOnlyEl.nativeElement.textContent.trim()).toBe(
                     subject.defaultAriaLabel
                 );
-                expect(srOnlyEl.nativeElement.textContent.trim().length).toBeGreaterThan(
-                    0
-                );
+                expect(
+                    srOnlyEl.nativeElement.textContent.trim().length
+                ).toBeGreaterThan(0);
             });
 
             it("points aria-controls of the header button at the body region", () => {

@@ -258,9 +258,17 @@ export class Helpers {
     }
 
     static async waitElementVisible(el: ElementFinder): Promise<void> {
-        await browser.wait(protractor.ExpectedConditions.visibilityOf(el), 5000, "Element is not visible");
+        await browser.wait(
+            protractor.ExpectedConditions.visibilityOf(el),
+            5000,
+            "Element is not visible"
+        );
     }
     static async waitElementToBeClickable(el: ElementFinder): Promise<void> {
-        await browser.wait(protractor.ExpectedConditions.elementToBeClickable(el), 5000, "Element is not visible");
+        await browser.wait(
+            protractor.ExpectedConditions.elementToBeClickable(el),
+            5000,
+            "Element is not visible"
+        );
     }
 }

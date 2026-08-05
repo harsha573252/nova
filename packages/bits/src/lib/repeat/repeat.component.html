@@ -112,35 +112,33 @@
         <ng-content select="[repeatHeaderTemplate]"></ng-content>
     </div>
     <ul #dropListArea class="repeat-group" aria-dropeffect="move">
-        @if (!virtualScroll) {
-            @for ( sourceItem of itemsSource; track (itemConfig?.trackBy?.($index, sourceItem) ?? $index)) {
+        @if (!virtualScroll) { @for ( sourceItem of itemsSource; track
+        (itemConfig?.trackBy?.($index, sourceItem) ?? $index)) {
+        <ng-container
+            [ngTemplateOutlet]="repeatItems"
+            [ngTemplateOutletContext]="{
+                item: sourceItem,
+                itemIndex: $index
+            }"
+        ></ng-container>
+        } } @if (virtualScroll && itemSize) {
+        <cdk-virtual-scroll-viewport [itemSize]="itemSize">
+            <ng-container
+                *cdkVirtualFor="
+                    let sourceItem of itemsSource;
+                    let i = index;
+                    templateCacheSize: 0
+                "
+            >
                 <ng-container
                     [ngTemplateOutlet]="repeatItems"
                     [ngTemplateOutletContext]="{
                         item: sourceItem,
-                        itemIndex: $index
+                        itemIndex: i
                     }"
                 ></ng-container>
-            }
-        }
-        @if (virtualScroll && itemSize) {
-            <cdk-virtual-scroll-viewport [itemSize]="itemSize">
-                <ng-container
-                    *cdkVirtualFor="
-                        let sourceItem of itemsSource;
-                        let i = index;
-                        templateCacheSize: 0
-                    "
-                >
-                    <ng-container
-                        [ngTemplateOutlet]="repeatItems"
-                        [ngTemplateOutletContext]="{
-                            item: sourceItem,
-                            itemIndex: i
-                        }"
-                    ></ng-container>
-                </ng-container>
-            </cdk-virtual-scroll-viewport>
+            </ng-container>
+        </cdk-virtual-scroll-viewport>
         }
     </ul>
 </div>
