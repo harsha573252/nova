@@ -67,6 +67,7 @@
             <td class="text-center day" [id]="cell.uid">
                 @if (cell.isCellVisible) {
                 <button
+                    #dayCellButton
                     nui-button
                     type="button"
                     displayStyle="action"
@@ -75,8 +76,8 @@
                         disabled: cell.disabled
                     }"
                     [disabled]="cell.disabled"
+                    [attr.tabindex]="cell.isFocusTarget ? 0 : -1"
                     (click)="datePicker.select(cell.date, $event)"
-                    tabindex="-1"
                 >
                         <span
                             [ngClass]="{

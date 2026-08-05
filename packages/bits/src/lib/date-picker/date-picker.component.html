@@ -36,7 +36,11 @@
             [overlayConfig]="overlayConfig"
             [customContainer]="customContainer"
         >
-            <ng-container *ngTemplateOutlet="datePickerInner"></ng-container>
+            <div cdkTrapFocus (keydown)="onOverlayKeyDown($event)">
+                <ng-container
+                    *ngTemplateOutlet="datePickerInner"
+                ></ng-container>
+            </div>
         </nui-overlay>
     }
 

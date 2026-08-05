@@ -288,7 +288,10 @@ export class DatePickerComponent
 
             this.overlay.show$
                 .pipe(takeUntil(this.onDestroy$))
-                .subscribe((_) => this._datePicker.refreshView());
+                .subscribe((_) => {
+                    this._datePicker.refreshView();
+                    this.keyboardService.focusActiveCell();
+                });
             this.overlay.hide$
                 .pipe(takeUntil(this.onDestroy$))
                 .subscribe((_) => {
@@ -319,6 +322,30 @@ export class DatePickerComponent
     @HostListener("keydown", ["$event"])
     public onKeyDown(event: KeyboardEvent): void {
         this.keyboardService.onKeyDown(event);
+    }
+
+    public onOverlayKeyDown(event: KeyboardEvent): void {
+        if (event.key !== "Tab") {
+            return;
+        }
+
+        const container = event.currentTarget as HTMLElement;
+        const focusableElements = Array.from(
+            container.querySelectorAll<HTMLElement>(
+                "button:not([disabled]):not([tabindex='-1']), input:not([disabled]):not([tabindex='-1']), select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), [href], [tabindex]:not([tabindex='-1'])"
+            )
+        ).filter((element) => element.getClientRects().length > 0);
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements.at(-1);
+        const activeElement = container.ownerDocument.activeElement;
+
+        if (
+            (event.shiftKey && activeElement === firstElement) ||
+            (!event.shiftKey && activeElement === lastElement)
+        ) {
+            event.preventDefault();
+            (event.shiftKey ? lastElement : firstElement)?.focus();
+        }
     }
 
     public updateTouchedState(): void {
@@ -378,7 +405,15 @@ export class DatePickerComponent
 
     public onSelectionDone(value: Moment): void {
         this.value = value;
-        this.overlay?.hide();
+
+        if (this.overlay) {
+            // Popup: return focus to the toggle button on close.
+            this.overlay.hide();
+            this.toggleButtonRef?.nativeElement.focus();
+        } else {
+            // Inline: keep focus on the selected cell.
+            this.keyboardService.focusActiveCell();
+        }
     }
 
     private updateTextboxValue(value: any = this._value) {
