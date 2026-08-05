@@ -10,6 +10,6 @@
             "@test/*": ["./*"]
         }
     },
-    "files": ["index.ts"],
     "extends": "../tsconfig.json",
+    "files": ["index.ts"]
 }

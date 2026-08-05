@@ -1,8 +1,9 @@
 # Changelog
 
-## [20.0.9] 📅 2026-08-04
+## [20.0.9] 📅 2026-08-05
 ### Fixes
 - Essentional A11y fixies
+- `@nova-ui/bits` | Added unique IDs to expander landmarks
 - `@nova-ui/bits` | A11y fixes for nui-toolbar
 
 ## [20.0.8] 📅 2026-07-27

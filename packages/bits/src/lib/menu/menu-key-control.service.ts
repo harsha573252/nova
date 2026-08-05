@@ -20,7 +20,14 @@
 
 import { ActiveDescendantKeyManager, LiveAnnouncer } from "@angular/cdk/a11y";
 import { DOCUMENT } from "@angular/common";
-import { ElementRef, Injectable, OnDestroy, QueryList, Renderer2, Inject } from "@angular/core";
+import {
+    ElementRef,
+    Injectable,
+    OnDestroy,
+    QueryList,
+    Renderer2,
+    Inject,
+} from "@angular/core";
 import isNull from "lodash/isNull";
 import { Subject, Subscription } from "rxjs";
 

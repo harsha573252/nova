@@ -166,25 +166,33 @@ describe("components >", () => {
                 expect(button.attributes["aria-controls"]).toBeFalsy();
 
                 // Open menu
-                testComponent.menu.popup.toggleOpened(new FocusEvent("focusin"));
+                testComponent.menu.popup.toggleOpened(
+                    new FocusEvent("focusin")
+                );
                 fixture.detectChanges();
 
                 expect(button.attributes["aria-expanded"]).toBe("true");
                 expect(button.attributes["aria-controls"]).toBeTruthy();
                 const menuContentId = button.attributes["aria-controls"];
-                const content = fixture.debugElement.query(By.css("#" + menuContentId));
+                const content = fixture.debugElement.query(
+                    By.css("#" + menuContentId)
+                );
                 expect(content).toBeTruthy();
             });
 
             it("should have correct roles on menu-link", () => {
                 // Ensure menu items are rendered
-                testComponent.menu.popup.toggleOpened(new FocusEvent("focusin"));
+                testComponent.menu.popup.toggleOpened(
+                    new FocusEvent("focusin")
+                );
                 fixture.detectChanges();
 
-                const menuLinks = fixture.debugElement.queryAll(By.directive(MenuLinkComponent));
+                const menuLinks = fixture.debugElement.queryAll(
+                    By.directive(MenuLinkComponent)
+                );
                 expect(menuLinks.length).toBeGreaterThan(0);
 
-                menuLinks.forEach(linkDebugEl => {
+                menuLinks.forEach((linkDebugEl) => {
                     // Host element should have role="none"
                     expect(linkDebugEl.attributes["role"]).toBe("none");
 

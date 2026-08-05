@@ -22,7 +22,7 @@ import moment, { Moment } from "moment/moment";
 import { by, ElementFinder, Key, protractor } from "protractor";
 
 import { Atom } from "../atom";
-import {Helpers} from "../helpers";
+import { Helpers } from "../helpers";
 import { OverlayAtom } from "./overlay.atom";
 import { TextboxAtom } from "./textbox.atom";
 

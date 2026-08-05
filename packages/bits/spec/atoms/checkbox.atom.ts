@@ -20,7 +20,6 @@
 
 import { browser, by, ElementFinder } from "protractor";
 
-
 import { Atom } from "../atom";
 
 export class CheckboxAtom extends Atom {
