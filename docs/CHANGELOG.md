@@ -1,10 +1,11 @@
 # Changelog
 
-## [20.0.9] 📅 2025-07-29
+## [20.0.9] 📅 2026-08-04
 ### Fixes
 - Essentional A11y fixies
+- `@nova-ui/bits` | A11y fixes for nui-toolbar
 
-## [20.0.8] 📅 2025-07-27
+## [20.0.8] 📅 2026-07-27
 ### Added
 - `@nova-ui/dashboards` | Decoupled KPI tile and proportional chart into reusable view components (`KpiTileViewComponent`, `ProportionalChartViewComponent`)
 - `@nova-ui/dashboards` | Added `ViewsModule` exposing reusable module-based view components for use outside of widget context
@@ -12,7 +13,7 @@
 ## [20.0.7] 📅 2026-07-22
 ### versions of package were upgrade to be at least the same as in Fusion
 
-## [20.0.5] 📅 2025-06-04
+## [20.0.5] 📅 2026-06-04
 ### Fixes
 - `@nova-ui/bits` | A11y fixies for Home Summary
 - `@nova-ui/bits` | A11y fixies for Search component

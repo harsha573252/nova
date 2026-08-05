@@ -7,7 +7,6 @@
     <div class="nui-toolbar-content__dynamic">
         <ng-template
             ngFor
-            let-i="index"
             let-commandGroup
             let-last="last"
             [ngForOf]="commandGroups"
@@ -15,15 +14,15 @@
             <ng-template
                 ngFor
                 let-commandItem
-                let-j="index"
                 [ngForOf]="commandGroup.items"
             >
-                <!-- (!i && !j) is used for set focusable state to first element first group -->
+                <!-- tabindex 0 is assigned to the first enabled item so a fully-disabled toolbar stays reachable via Tab -->
                 <button
                     nui-button
                     type="button"
                     #toolbarButtons
-                    [tabindex]="!i && !j ? 0 : -1"
+                    [tabindex]="isFirstFocusableItem(commandItem) ? 0 : -1"
+                    [disabled]="commandItem.disabled"
                     (click)="onClickToolbarBtn($event, commandItem)"
                     [displayStyle]="
                         commandItem.displayStyle === 'main'
@@ -62,7 +61,8 @@
                                     : 'default'
                             "
                             [icon]="menuItem.icon"
-                            (click)="menuItem.actionDone.emit()"
+                            [disabled]="menuItem.disabled"
+                            (actionDone)="menuItem.actionDone.emit()"
                             >{{ menuItem.title }}
                         </nui-menu-action>
                     </ng-template>

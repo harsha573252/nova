@@ -133,7 +133,7 @@ test.describe("USERCONTROL form-field >", () => {
         test("should be set for textbox-number", async () => {
             await expect(getAriaLabel(textboxNumber)).toHaveAttribute(
                 "aria-label",
-                "Textbox number input"
+                "Textbox Number"
             );
         });
 
