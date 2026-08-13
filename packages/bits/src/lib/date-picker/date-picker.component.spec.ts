@@ -452,7 +452,7 @@ describe("components >", () => {
                     fixture.debugElement.injector.get<DatePickerKeyboardService>(
                         DatePickerKeyboardService
                     );
-                const focusSpy = spyOn(keyboardService, "focusActiveCell");
+                const focusSpy = spyOn(keyboardService, "focusActiveCellSync");
 
                 componentInstance._datePicker.modeChanged.next("month");
 
